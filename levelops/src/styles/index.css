@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-400;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  @apply px-4 lg:px-8;
+}
+
+.container:not(.standalone) {
+  /* @apply pt-8; */
+}
+
+.section {
+  @apply py-4;
+}
+
+.section:first-of-type .container {
+  @apply pt-4 lg:pt-16;
+}
+
+.section:last-of-type .container {
+  @apply pb-4 lg:pb-16;
+}
+
+.section.no-wrap-child .container {
+  @apply flex-nowrap;
+}
+
+.item {
+  @apply bg-white rounded-md lg:rounded-sm lg:mx-2 px-4 lg:px-6 py-6 lg:py-9 mb-4 lg:mb-0;
+  box-shadow: 0 1.5px 1.5px rgb(0 0 0 / 0.05);
+}
+
+.item:last-of-type {
+  @apply mb-0;
+}
+
+.item.legend {
+  @apply bg-transparent p-0 mb-2;
+  box-shadow: none;
+}
+
+.hyperlink {
+  @apply underline;
+}
+
+.recharts-surface text tspan {
+  max-width: 50px;
+  overflow: hidden;
+}
+
+.customCheckList {
+  max-height: 100px;
+  overflow: auto;
+}
