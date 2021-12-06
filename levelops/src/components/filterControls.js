@@ -1,45 +1,46 @@
-import React, { useContext } from 'react';
-import { JiraContext } from '../App' 
+import React, { useState, useEffect, useContext }from 'react';
+import { JiraContext } from '../App'
 import CheckList from './checkList'
+import data from '../data/tickets.json'
 
 const FilterControls = (props) => {
     const jiraContext = useContext(JiraContext);
 
-    const food = [
-        { value: 'Pelageya Rakhi', label: 'Pelageya Rakhi' },
-        { value: 'Kibwe Leanne', label: 'Kibwe Leanne' },
-        { value: 'Karan Cardea', label: 'Karan Cardea' },
-    ];
+    const [criteria, updateSelection] = useState([]);
 
-    const hotel = [
-        { value: 'Pelageya Rakhi', label: 'Pelageya Rakhi' },
-        { value: 'Kibwe Leanne', label: 'Kibwe Leanne' },
-        { value: 'Karan Cardea', label: 'Karan Cardea' },
-    ];
+    const addCriteria = (e) => {
+        updateSelection(
+            e.target.checked
+                ? criteria => [...criteria, { param: e.target.name, value: e.target.value }]
+                : criteria.filter(item => item.value !== e.target.value)
+        );
+    };
 
-    const cuisines = [
-        { value: 'Pelageya Rakhi', label: 'Pelageya Rakhi' },
-        { value: 'Kibwe Leanne', label: 'Kibwe Leanne' },
-        { value: 'Karan Cardea', label: 'Karan Cardea' },
-    ];
+    useEffect(() => {
+        jiraContext.filterDispatch(criteria);
+    }, [criteria]);
+
+    const records = data.records;
+    const assignees = [...new Set(records.map(item => item.assignee))];
+    const priority = [...new Set(records.map(item => item.priority))]
+    const status = [...new Set(records.map(item => item.status))]
 
     return (
         <div className="flex w-full flex-wrap">
-            <div className="flex w-full">
-                <div className="item legend py-1 w-full justify-center items-center">
-                    <h4 className="font-bold">You can filter results by:</h4>
+            <div className="filters-wrap item lean lean-t bg-white flex w-full flex-col">
+                <h4 className="filter-title font-bold">Filter by:</h4>
+                <div className="filter-group item legend lean w-full">
+                    <h4 className="font-bold">Assignees</h4>
+                    <CheckList context={assignees} group="assignee" clickFn={addCriteria}></CheckList>
                 </div>
-            </div>
-            <div className="flex w-full">
-                <div className="item w-4/12">Assignee
-                    <CheckList context={food} group="assignee"></CheckList>
+                <div className="filter-group item legend lean w-full">
+                    <h4 className="font-bold">Priority</h4>
+                    <CheckList context={priority} group="priority" clickFn={addCriteria}></CheckList>
                 </div>
-                {/* <div className="item w-4/12">Status
-                    <CheckList context={hotel} group="assignee"></CheckList>
+                <div className="filter-group item legend lean w-full">
+                    <h4 className="font-bold">Status</h4>
+                    <CheckList context={status} group="status" clickFn={addCriteria}></CheckList>
                 </div>
-                <div className="item w-4/12">Priority
-                    <CheckList context={cuisines} group="assignee"></CheckList>
-                </div> */}
             </div>
         </div>
     );

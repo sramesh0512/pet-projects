@@ -1,4 +1,4 @@
-const Footer = (props) => {
+const Footer = () => {
     return (
         <footer className="w-full py-10 bg-gray-400 text-gray-800">
             <div className="container standalone mx-auto flex flex-col text-right">
